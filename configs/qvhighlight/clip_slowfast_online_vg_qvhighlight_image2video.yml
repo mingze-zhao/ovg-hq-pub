@@ -1,0 +1,7 @@
+query: image
+dset_name: qvhighlight_gen_segment
+
+# multi-modal query
+multi_query: false
+query_type: segment # text, segment, segment_text # 要改
+t_feat_dir: {"text":'data/QVHighlight/features/clip_text', "segment":['data/QVHighlight/features/clip_oriimage2video', 'data/QVHighlight/features/slowfast_oriimage2video']} # 要改

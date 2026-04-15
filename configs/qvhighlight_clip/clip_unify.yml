@@ -1,0 +1,31 @@
+results_dir: exp/highlight-unify/unified_model/poslen70_bs256_discoef0_2_discoef_0_5
+wandb_dir: wandb/highlight-unify/unified_model/poslen70_bs256_discoef0_2_discoef_0_5
+query: unify
+dset_name: qvhighlight_unify
+bsz: 256
+# Online Loss
+online_loss: ['reg', 'cls', 'dis']
+dis_loss_coef: 0.4 # 0.8,0.6,0.4,0.2
+
+eval_query_type: "segment_g"
+# multi-modal query
+multi_query: true
+query_type: segment_text # text, segment, segment_text
+t_feat_dir: {"text":'data/QVHighlight/features/clip_text', "text_c": 'data/QVHighlight/features/clip_text_c', "segment":{"image_g":['data/QVHighlight/features/clip_image_g'], "image_r":['data/QVHighlight/features/clip_image_r'], "image_c":['data/QVHighlight/features/clip_image_c'], "segment_g":['data/QVHighlight/features/clip_segment_g']}} #新加
+
+# knowlege_distillation
+has_teacher: true
+temperature: 2
+distillation_loss: {"query_feat": "kl", "logits":"kl", "reg":"kl"}
+distillation_pos: ["logits", "spans", "query_feat_0", "query_feat_1"] #"logits", "spans", "query_feat_0", "query_feat_1"
+teacher_model_path: exp/highlight-unify/expert_model/poslen70_bs256_sd3/segment_g_text/checkpoint/best.ckpt
+
+use_att: False
+use_lstm: False
+
+# TTT PostProcesser
+post_ttt_task: ["mr"]
+post_ttt_layer_type: ttt # transformer_ttt, ttt, transformer_attention, attention
+post_ttt_layer_num: 1
+post_ttt_input_type: ["pred", "query_feat"] # []"pred", "query_feat", "video_feat"dn]
+post_ttt_input_fusion_type: "4->D||D" #["4->D", "4->D||D", "4->D+D", "4||D"]

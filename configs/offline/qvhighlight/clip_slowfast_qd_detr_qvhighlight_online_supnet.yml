@@ -1,0 +1,52 @@
+model_name: online_qd_detr
+dset_name: qvhighlight
+ctx_mode: video_tef
+v_feat_types: slowfast_clip
+t_feat_type: clip
+train_path: /mnt/data/jiaqi/online-vg/annotation/qvhighlight/highlight_train_release.jsonl
+eval_path: /mnt/data/jiaqi/online-vg/annotation/qvhighlight/highlight_val_release.jsonl
+eval_split_name: val
+v_feat_dirs: ['/mnt/data/jiaqi/online-vg/data/QVHighlight/clip', '/mnt/data/jiaqi/online-vg/data/QVHighlight/slowfast']
+t_feat_dir: /mnt/data/jiaqi/online-vg/data/QVHighlight/clip_text
+v_feat_dim: 2818
+t_feat_dim: 512
+aux_loss: True
+ckpt_filename: best.ckpt
+train_log_filename: train.log
+eval_log_filename: val.log
+clip_length: 2
+
+
+use_online: True
+anchor_windows: [1,2,4,8,16]
+segment_size: 16
+pos_threshold: 0.5
+label_file_path: /mnt/data/jiaqi/online-vg/label_output/qvhighlights/proposal_label_{}.h5
+num_queries: 5
+
+online_loss: ['reg', 'cls']
+reg_loss_coef: 1
+cls_loss_coef: 100
+bsz: 256
+
+num_workers: 8
+log_interval: 100
+lr: 0.00001
+threshold: 0.5
+nms_threshold: 0.3
+eos_coef: 0.01
+results_dir: /mnt/data/jiaqi/online-vg/exp/debug
+wandb_dir: /mnt/data/jiaqi/online-vg/wandb/debug
+
+
+###SuppressNet##
+model_path: /mnt/data/jiaqi/online-vg/exp/qvhighlights/online-baseline/remove_token/trainset_shuffle_remove_randomtoken/best.ckpt
+suppress_label_file: /mnt/data/jiaqi/online-vg/label_output/qvhighlights/suppress_label_{}_debug.h5
+inference_subset: val
+mode: train
+sup_lr: 0.0001
+sup_weight_decay: 0.0001
+sup_lr_step: 3
+sup_checkpoint_path: /mnt/data/jiaqi/online-vg/exp/qvhighlightss/online-baseline/suppressnet/
+sup_batch_size: 128
+n_epoch: 50

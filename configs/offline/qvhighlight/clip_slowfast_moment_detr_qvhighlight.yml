@@ -1,0 +1,10 @@
+
+
+v_feat_dim: 2818
+t_feat_dim: 512
+aux_loss: True
+results_dir: results/clip_slowfast_moment_detr/qvhighlight
+ckpt_filename: best.ckpt
+train_log_filename: train.log
+eval_log_filename: val.log
+clip_length: 2

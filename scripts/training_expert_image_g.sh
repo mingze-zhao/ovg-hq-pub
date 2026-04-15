@@ -1,0 +1,1 @@
+python training/train.py --config configs/qvhighlight_clip/clip_image_g.yml --savecode

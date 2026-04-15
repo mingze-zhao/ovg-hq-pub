@@ -1,0 +1,114 @@
+# --- Project outputs (large / reproducible locally) ---
+data/
+exp/
+wandb/
+results/
+output/
+label_output/
+
+# --- Logs & run artifacts ---
+*.log
+random_numbers.txt
+aggregated_results.csv
+
+# --- Checkpoints & heavy weights ---
+*.ckpt
+*.pth
+*.pt
+*.safetensors
+*.bin
+*.onnx
+
+# --- HDF5 / numpy caches (datasets & anchor labels) ---
+*.h5
+*.hdf5
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# --- Virtual environments ---
+.venv/
+venv/
+ENV/
+env/
+
+# --- Jupyter (notebook + “checkpoint” copies of edited .py/.md) ---
+.ipynb_checkpoints/
+
+# --- IDE & OS junk ---
+.idea/
+.vscode/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# --- Tests & coverage ---
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.mypy_cache/
+.ruff_cache/
+
+# --- Packaging ---
+*.egg-info/
+*.egg
+dist/
+build/
+eggs/
+.eggs/
+
+# --- Local editor / agent tooling (not part of the paper codebase) ---
+.cursorindexingignore
+.specstory/
+
+# --- Local secrets ---
+.env
+.env.*
+!.env.example
+
+# --- Manuscript / submission drafts (not code; keep locally only) ---
+ICCV_Submission_7351.md
+ICCV_Submission*.md
+
+# Saved browser HTML from Google Drive (not source; embeds client API keys)
+annotation/qvhighlight_icq/generate_trainingset/view
+
+# --- Utilities not used by training/train.py or training/evaluate.py ---
+# Dataset construction & ad-hoc helpers (training reads JSONL via config paths only).
+annotation/**/*.py
+clip_filter.py
+search_image.py
+test.py
+sync_wandb.py
+evaluate_unified_model.py
+# scripts/*.py helpers except multi-query eval (used for ICQ-style runs)
+scripts/*.py
+!scripts/multi_query_evaluate.py
+
+# --- Local figures / t-SNE / style samples (not source) ---
+3d_clip_tsne.png
+cartoon.png
+cinematic.png
+realistic.png
+scribble.png
+clip_tsne_visualization.png
+tsne_visualization.jpg
+differences_report.txt
+scripts/*.png
+scripts/*.jpg
+
+# --- visualize/: paper figures & baseline tables (keep locally if needed) ---
+visualize/
+
+# --- W&B local docs / shell helper ---
+setup_wandb.sh
+WANDB_USAGE.md
+
+# --- One-off multi-query driver (optional local) ---
+test_multi_query_evaluation.py

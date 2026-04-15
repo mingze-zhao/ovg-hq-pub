@@ -1,0 +1,6 @@
+query: text
+dset_name: qvhighlight
+# multi-modal query
+multi_query: false
+query_type: text # text, segment, segment_text
+t_feat_dir: data/QVHighlight/features/clip_text

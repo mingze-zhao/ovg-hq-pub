@@ -1,0 +1,71 @@
+model_name: online_qd_detr
+dset_name: activitynet
+ctx_mode: video_tef
+v_feat_types: c3d
+t_feat_type: glove
+train_path: /mnt/data/jiaqi/online-vg/annotation/activitynet/activitynet_train_release.jsonl
+eval_path: /mnt/data/jiaqi/online-vg/annotation/activitynet/activitynet_val_release.jsonl
+eval_split_name: val
+v_feat_dirs: ['/mnt/data/jiaqi/online-vg/data/Anet/feature']
+t_feat_dir: /mnt/data/jiaqi/online-vg/data/Anet/feature
+v_feat_dim: 502 # 4096 + 2, 2是position embedding
+t_feat_dim: 768
+
+aux_loss: True
+ckpt_filename: best.ckpt
+train_log_filename: train.log
+eval_log_filename: val.log
+clip_length: 0.32353 # for c3d
+start_eval_epoch: 0
+eval_epoch_interval: 4
+eval_subset: val
+## Anchor
+pos_threshold: 0.5 # Anchor和GT，IOU大于0.5，则认为Anchor为正样本
+label_file_path: /mnt/data/jiaqi/online-vg/label_output/activitynet/proposal_label_{}_2_4_8_16_samp_rate_6.h5 #Anchor Label的路径
+anchor_windows: [2,4,8,16] # Anchor的窗口长度
+num_queries: 4 # Anchor的数量
+threshold: 0.5 # Anchor的置信度大于threshold, 则认为是前景
+
+# Online Loss
+online_loss: ['reg', 'cls']
+reg_loss_coef: 1
+cls_loss_coef: 10
+eos_coef: 0.01 
+
+## Post processing
+per_frame_nms: False
+sup_checkpoint_path: /mnt/data/jiaqi/online-vg/exp/qvhighlights/online-baseline/suppressnet/focal_loss/sup_lr/0.001
+sup_threshold: 0.1
+pptype: nms
+nms_threshold: 1
+
+## TTT Config
+minimal_unit: window
+encoder_layer_type: transformer_ttt # transformer_ttt, ttt, transformer_attention, attention
+sequence_length: 16
+enc_layers: 1
+
+# Focal Loss parameter
+use_focal_loss: True
+alpha: 0.7
+gamma: 1.5
+
+## 实验参数
+use_online: True 
+test_online: True # 测试时是否流式处理window
+segment_size: 16 # 窗口长度
+bsz: 256
+eval_bsz: 1
+num_workers: 8
+log_interval: 100
+lr: 0.0001
+input_dropout: 0.5
+results_dir: /mnt/data/jiaqi/online-vg/exp/activitynet/bsz256_sgsize16_stepLR_lr1e-4_alpha0.7_gamma1.5_transttt_1layers_ac_2_4_8_16
+wandb_dir: /mnt/data/jiaqi/online-vg/wandb/activitynet/bsz256_sgsize16_stepLR_lr1e-4_alpha0.7_gamma1.5_transttt_1layers_ac_2_4_8_16
+n_epoch: 80
+clip_sub_sampling_rate: 6
+# model_path: /mnt/data/jiaqi/online-vg/exp/qvhighlights/online-baseline/nms_threshold_new/0.3/best.ckpt
+
+# Scheduler
+scheduler: StepLR # cyclicLR cosine_restarts StepLR
+

@@ -1,0 +1,68 @@
+model_name: online_qd_detr
+dset_name: tacos
+ctx_mode: video_tef
+v_feat_types: c3d
+t_feat_type: glove
+train_path: /mnt/data/jiaqi/online-vg/annotation/tacos/tacos_train_release.jsonl
+eval_path: /mnt/data/jiaqi/online-vg/annotation/tacos/tacos_test_release.jsonl
+eval_split_name: test
+v_feat_dirs: ['/mnt/data/jiaqi/online-vg/data/tacos/mmtsgv/feature']
+t_feat_dir: /mnt/data/jiaqi/online-vg/data/tacos/mmtsgv/feature
+v_feat_dim: 4098 # 4096 + 2, 2是position embedding
+t_feat_dim: 768
+aux_loss: True
+ckpt_filename: best.ckpt
+train_log_filename: train.log
+eval_log_filename: test.log
+clip_length: 0.4166667 # For c3d
+start_eval_epoch: 1
+eval_epoch_interval: 4
+eval_subset: test
+## Anchor
+pos_threshold: 0.5 # Anchor和GT，IOU大于0.5，则认为Anchor为正样本
+label_file_path: /mnt/data/jiaqi/online-vg/label_output/tacos/proposal_label_{}_2_4_6_8_18_36_samp_rate_4.h5 #Anchor Label的路径
+anchor_windows: [2,4,6,8,18,36] # Anchor的窗口长度,待会试试加个52
+num_queries: 6 # Anchor的数量
+threshold: 0.5 # Anchor的置信度大于threshold, 则认为是前景
+
+# Online Loss
+online_loss: ['reg', 'cls']
+reg_loss_coef: 1
+cls_loss_coef: 100
+eos_coef: 0.01 
+
+## Post processing
+per_frame_nms: False
+sup_checkpoint_path: /mnt/data/jiaqi/online-vg/exp/qvhighlights/online-baseline/suppressnet/focal_loss/sup_lr/0.001
+sup_threshold: 0.1
+pptype: nms
+nms_threshold: 1
+
+## TTT Config
+minimal_unit: clip
+encoder_layer_type: transformer_ttt # transformer_ttt, ttt, transformer_attention, attention
+sequence_length: 16
+enc_layers: 1
+
+# Focal Loss parameter
+use_focal_loss: True
+alpha: 0.5
+gamma: 2
+
+## 实验参数
+use_online: True 
+test_online: True # 测试时是否流式处理window
+segment_size: 16 # 窗口长度=36时，能覆盖大部分GT
+bsz: 128
+eval_bsz: 1
+num_workers: 8
+log_interval: 100
+lr: 0.0001
+input_dropout: 0.5
+results_dir: /mnt/data/jiaqi/online-vg/exp/tacos/segment_size16_bs128_lr1e-4_alpha0.5_transttt_1layer_possampling
+wandb_dir: /mnt/data/jiaqi/online-vg/wandb/tacos/segment_size16_bs128_lr1e-4_alpha0.5_transttt_1layer_possampling
+n_epoch: 35
+clip_sub_sampling_rate: 4 # 这个改了之后，Anchor的长度以及label_file_path也要对应更改
+# model_path: /mnt/data/jiaqi/online-vg/exp/qvhighlights/online-baseline/nms_threshold_new/0.3/best.ckpt
+
+

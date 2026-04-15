@@ -1,0 +1,142 @@
+results_dir: exp/highlight-unify/expert_model/poslen70_bs256_sd3
+wandb_dir: wandb/highlight-unify/expert_model/poslen70_bs256_sd3
+
+# Wandb Configuration
+wandb_mode: online  # 可选值: online, offline, disabled
+wandb_project: online-vg
+wandb_entity: ustf-zmz-shenzhen-msu-bit-university  # 设置为你的团队名
+wandb_log_model: false  # 是否上传模型checkpoint
+wandb_log_predictions: false  # 是否上传预测结果jsonl文件
+# hyperparameter
+seed: 3
+num_workers: 8
+lr: 1.0e-4
+wd: 0.0001
+n_epoch: 30
+bsz: 256
+segment_size: 16
+
+# Model #
+# encoder type
+use_lstm: false
+use_gru: false
+use_att: false
+t2i_enc_layers: 0
+
+## TTT Encoder
+encoder_layer_type: transformer_ttt # transformer_ttt, ttt, transformer_attention, attention
+sequence_length: 16
+enc_layers: 2
+
+# TTT PostProcesser
+post_ttt_task: ["mr"]
+post_ttt_layer_type: ttt # transformer_ttt, ttt, transformer_attention, attention
+post_ttt_layer_num: 1
+post_ttt_input_type: ["pred","query_feat"] # []"pred", "query_feat", "video_feat"dn]
+post_ttt_input_fusion_type: "4->D||D" #["4->D", "4->D||D", "4->D+D", "4||D"]
+
+# pos_embedding
+posseg_len: 70
+position_embedding: "onlinesegment"
+
+# Loss
+online_loss: ['reg', 'cls']
+reg_loss_coef: 1
+cls_loss_coef: 10
+sal_loss_coef: 1
+dis_loss_coef: 1
+eos_coef: 0.01 
+#Focal Loss 
+use_focal_loss: True
+alpha: 0.9
+gamma: 2
+
+# Optimizer #
+scheduler: StepLR
+saliency_margin: 0.3
+
+# Data #
+v_feat_dirs: ['data/QVHighlight/features/clip_video']
+
+# Anontation #
+train_path: annotation/qvhighlight/highlight_segment_train_release_rand2.jsonl
+eval_path: annotation/qvhighlight/highlight_segment_val_release_rand2.jsonl
+
+# Post processing #
+per_frame_nms: False
+sup_checkpoint_path: exp/qvhighlights/online-baseline/suppressnet/focal_loss/sup_lr/0.001
+sup_threshold: 0.1
+pptype: nms
+nms_threshold: 1
+
+# knowlege_distillation
+has_teacher: false
+temperature: 1
+distillation_loss: {"query_feat": "kl", "logits":"kl", "reg":"kl"}
+distillation_pos: ["query_feat_0", "query_feat_1", "logits", "spans"]
+teacher_model_path: exp/Last/add_post_real_mr_hd_ttt/qvhightlight_segment_text/transformer_ttt_4_D_pred/checkpoint/epoch16.ckpt
+
+# Anchor #
+pos_threshold: 0.5 # Anchor和GT，IOU大于0.5，则认为Anchor为正样本
+label_file_path: label_output/qvhighlights/sgm16_1_2_4_8_proposal_label_{}.h5 #Anchor Label的路径
+segment_size: 16 # 窗口长度
+anchor_windows: [1,2,4,8] # Anchor长度
+num_queries: 4 # Anchor的数量
+threshold: 0.5 # Anchor的置信度大于threshold, 则认为是前景
+dec_predefined_anchor: True # Decoder的输入Anchor是否与定义
+
+model_name: online_qd_detr
+ctx_mode: video
+v_feat_types: clip
+t_feat_type: clip
+eval_split_name: val
+v_feat_dim: 512
+t_feat_dim: 512
+aux_loss: True
+ckpt_filename: best.ckpt
+train_log_filename: train.log
+eval_log_filename: val.log
+test_log_filename: test.log
+clip_length: 2
+start_eval_epoch: 0
+eval_subset: val
+minimal_unit: window
+use_online: True
+test_online: True
+log_interval: 100
+clip_sub_sampling_rate: 1 # 这个改了之后，Anchor的长度以及label_file_path也要对应更2
+
+
+## fix ## 
+device: 'cuda'
+lr_drop: 400
+max_es_cnt: 200
+eval_bsz: 1
+grad_clip: 0.1
+max_q_l: 32
+max_v_l: 75
+max_windows: 5
+eval_epoch_interval: 1
+
+dec_layers: 2
+dim_feedforward: 1024
+hidden_dim: 256
+input_dropout: 0.5
+dropout: 0.1
+nheads: 8
+n_input_proj: 2
+
+model_ema: False # If you use EMA, set True (Taskweave uses EMA)
+ema_decay: 0.9
+
+span_loss_type: "l1"
+set_cost_span: 10
+set_cost_giou: 1
+set_cost_class: 4
+span_loss_coef: 10
+giou_loss_coef: 1
+label_loss_coef: 4
+lw_saliency: 1
+
+
+
