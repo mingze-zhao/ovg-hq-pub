@@ -16,13 +16,11 @@ Official implementation of **OVG-HQ** ([ICCV 2025 OpenAccess PDF](https://openac
 
 ## Dataset download
 
-Features and annotations for this project are shared via **hpccube** file hosting (browser download; extract code required):
+Features and annotations for this project are shared via **Google Drive**:
 
 | | |
 |--|--|
 | **Link** | [https://drive.google.com/file/d/1pZAAkHfzhZ59QOTkDpmcQcWEp3lEtyma/view?usp=sharing](https://drive.google.com/file/d/1pZAAkHfzhZ59QOTkDpmcQcWEp3lEtyma/view?usp=sharing) |
-
-Open the link in a browser, enter **`GqHu`** when prompted, and download the archive. After extracting, place features and labels under the paths expected by your YAML (see **Data preparation**, e.g. `data/QVHighlight/features/...`).
 
 ---
 
