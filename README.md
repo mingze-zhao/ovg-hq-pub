@@ -20,9 +20,7 @@ Features and annotations for this project are shared via **hpccube** file hostin
 
 | | |
 |--|--|
-| **Link** | [https://ksefile.hpccube.com:65241/efile/s/w/YWNsdjRiZWt4MA==_957306cfdd3e56f5](https://ksefile.hpccube.com:65241/efile/s/w/YWNsdjRiZWt4MA==_957306cfdd3e56f5) |
-| **Extract code** | `GqHu` |
-| **URL with code (if supported)** | [https://ksefile.hpccube.com:65241/efile/s/w/YWNsdjRiZWt4MA==_957306cfdd3e56f5?pwd=GqHu](https://ksefile.hpccube.com:65241/efile/s/w/YWNsdjRiZWt4MA==_957306cfdd3e56f5?pwd=GqHu) |
+| **Link** | [https://drive.google.com/file/d/1pZAAkHfzhZ59QOTkDpmcQcWEp3lEtyma/view?usp=sharing](https://drive.google.com/file/d/1pZAAkHfzhZ59QOTkDpmcQcWEp3lEtyma/view?usp=sharing) |
 
 Open the link in a browser, enter **`GqHu`** when prompted, and download the archive. After extracting, place features and labels under the paths expected by your YAML (see **Data preparation**, e.g. `data/QVHighlight/features/...`).
 
